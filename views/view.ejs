@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a5f47a3b96.js" crossorigin="anonymous"></script>
+    <title><%= title %></title>
+    <style>
+        /* Add some basic styling for the body */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Create a container for the to-do list */
+        .container {
+            /* background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 8px; */
+            /* width: 900px;
+            max-width: 90%; */
+            padding: 20px;
+            display: flex;
+            /* flex-direction: row; */
+        }
+
+        /* Left side - Form */
+        .left-side {
+            flex: 1;
+            padding: 30px;
+            /* border:2px solid; */
+            border-right: 2px solid #ccc;
+            height: 93vh; /* 93% of viewport height */
+        }
+
+        /* Right side - Response List */
+        .right-side {
+            flex: 1;
+            border: 2px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            width: 150px;
+            height: 93vh; /* 93% of viewport height */
+        }
+
+        /* Style the header */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Style the form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        input[type="text"],
+        select,
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #0c0c0c;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Style the "Add Task" button */
+        button[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Style the task list */
+        .list {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        li:hover {
+            border-color: #3498db;
+        }
+
+        /* Style category-specific borders */
+        li.work {
+            border-color: #e74c3c;
+        }
+
+        li.personal {
+            border-color: #27ae60;
+        }
+
+        li.shopping {
+            border-color: #f39c12;
+        }
+
+        /* Style the delete button */
+        .delete-button {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .delete-button a {
+            text-decoration: none;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button a:hover {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-side">
+            <h1>To-Do List</h1>
+            <form id="todo-form" method="post" action="/form_data">
+                <div class="form-group">
+                    <label for="taskDescription">Task Description:</label>
+                    <input type="text" id="taskDescription" name="taskDescription" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="work" class="work">Work</option>
+                        <option value="personal" class="personal">Personal</option>
+                        <option value="shopping" class="shopping">Shopping</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDate">Date:</label>
+                    <input type="date" id="taskDate" name="taskDate" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit"><i class="fa-solid fa-plus"></i> Add Task</button>
+                </div>
+            </form>
+        </div>
+        <div class="right-side">
+            <h2>Responses</h2>
+            <ul>
+                <% for(let i of data_list){ %>
+                    <li class="<%= i.category %>">
+                        <p>
+                            <i class="fa-solid fa-thumbtack"></i> Task Description: <%= i.taskDescription %><br>
+                            Category: <%= i.category %><br>
+                            Date: <i class="fa-solid fa-calendar-days"></i> <%= i.taskDate %><br>
+                        </p>
+                        <div class="delete-button">
+                            <a href="/delete-contact/?id=<%= i.id %>">
+                                <i class="fa-solid fa-check"></i> Completed
+                            </a>
+                        </div>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
